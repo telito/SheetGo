@@ -44,7 +44,7 @@ const CategoryView = () => {
       <Grid container spacing={2}>
         {filter.map((item: any) => {
           return (
-            <Grid key={item.id} item xs={3}>
+            <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
               <CardItens
                 idItem={item.id}
                 title={item.title}
