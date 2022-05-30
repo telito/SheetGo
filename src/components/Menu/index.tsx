@@ -1,223 +1,209 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import MailIcon from '@mui/icons-material/Mail';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import { TextField } from '@mui/material';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import MenuIcon from '@mui/icons-material/Menu';
+import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
-import MuiDrawer from '@mui/material/Drawer';
+import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 
-import SearchResults from '../../pages/SearchResults';
+import MenuButton from '../MenuButton';
+import SearchBar from '../SearchBar';
 
-const drawerWidth = 240;
-
-const openedMixin = (theme: Theme): CSSObject => ({
-  width: drawerWidth,
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: 'hidden',
-});
-
-const closedMixin = (theme: Theme): CSSObject => ({
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
-
-const DrawerHeader = styled('div')(({ theme }: any) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
-
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  whiteSpace: 'nowrap',
-  boxSizing: 'border-box',
-  ...(open && {
-    ...openedMixin(theme),
-    '& .MuiDrawer-paper': openedMixin(theme),
-  }),
-  ...(!open && {
-    ...closedMixin(theme),
-    '& .MuiDrawer-paper': closedMixin(theme),
-  }),
-}));
-
+const drawerWidth = 350;
 interface MenuProps {
   Page: any;
+  window?: () => Window;
 }
 
 export const Menu: React.FC<MenuProps> = (props) => {
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const [search, setSearch] = React.useState();
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [search, setSearch] = React.useState('');
 
-  const history = useNavigate();
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const drawer = (
+    <div>
+      <List>
+        <ListItem>
+          <ListItemButton>
+            <SearchBar />
+          </ListItemButton>
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem>
+          <ListItemButton>
+            <MenuButton nameButton={'home'} />
+          </ListItemButton>
+        </ListItem>
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value }: any = event.target;
-    setSearch(value);
-  };
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Typography
+            mb={3}
+            variant={'h4'}
+            style={{ color: '#0729C5', fontSize: '1rem', fontWeight: 'bold' }}
+          >
+            Categories
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '-14px',
+          }}
+        >
+          <Divider
+            sx={{
+              width: '80%',
+              background: '#0729C5',
+              fontSize: '2px',
+              borderRightWidth: '2.2px',
+              borderBottomWidth: '2.2px',
+            }}
+          />
+        </Box>
+
+        <ListItem>
+          <ListItemButton>
+            <MenuButton nameButton={'Finance'} />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem sx={{ marginTop: '-16px' }}>
+          <ListItemButton>
+            <MenuButton nameButton={'Software Development'} />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem sx={{ marginTop: '-16px' }}>
+          <ListItemButton>
+            <MenuButton nameButton={'Education'} />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem sx={{ marginTop: '-16px' }}>
+          <ListItemButton>
+            <MenuButton nameButton={'Sales'} />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem sx={{ marginTop: '-16px' }}>
+          <ListItemButton>
+            <MenuButton nameButton={'Local Bussines'} />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem sx={{ marginTop: '-16px' }}>
+          <ListItemButton>
+            <MenuButton nameButton={'Creative'} />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem sx={{ marginTop: '-16px' }}>
+          <ListItemButton>
+            <MenuButton nameButton={'Content Production'} />
+          </ListItemButton>
+        </ListItem>
+      </List>
+    </div>
+  );
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}></AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          <ListItem disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                <Box onClick={() => handleDrawerOpen()}>
-                  {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
-                  <InboxIcon />
-                </Box>
-                {open && (
-                  <TextField
-                    id="outlined-name"
-                    label="Name"
-                    value={search}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleChange(e)
-                    }
-                  />
-                )}
-              </ListItemIcon>
-              <ListItemText primary={'text'} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
 
-          <ListItem disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                <Box>
-                  {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
-                  <InboxIcon />
-                </Box>
-              </ListItemIcon>
-              <ListItemText primary={'text'} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        {search ? <SearchResults search={search} /> : <props.Page />}
+      <AppBar
+        position="fixed"
+        sx={{
+          display: { md: 'none' },
+          width: { md: `calc(100% - ${drawerWidth}px)` },
+          ml: { md: `${drawerWidth}px` },
+        }}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { md: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap component="div">
+            SheetGo Template Project
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Box
+        component="nav"
+        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
+        aria-label="mailbox folders"
+      >
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: 'block', md: 'none' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: 'none', md: 'block' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
+          }}
+          open
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: `calc(100% - ${drawerWidth}px)`,
+        }}
+      >
+        <Toolbar />
+        <props.Page />
       </Box>
     </Box>
   );

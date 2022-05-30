@@ -7,11 +7,11 @@ import Rating from '@mui/material/Rating';
 import { getStarLocalStorage, setStarLocalStorage } from '../../hooks';
 
 interface RatingStartsProps {
-  name: string;
+  idItem: string;
 }
 
 const Ratingstars: React.FC<RatingStartsProps> = (props) => {
-  const initialRating = JSON.parse(getStarLocalStorage(props.name as string));
+  const initialRating = JSON.parse(getStarLocalStorage(props.idItem as string));
 
   const [value, setValue] = React.useState<number | null>(
     initialRating ? initialRating : 0
@@ -31,7 +31,7 @@ const Ratingstars: React.FC<RatingStartsProps> = (props) => {
         value={value}
         precision={0.5}
         onChange={(event, newValue) => {
-          setStarLocalStorage(props.name, newValue as number);
+          setStarLocalStorage(props.idItem, newValue as number);
           setValue(newValue);
         }}
         onChangeActive={(event, newHover) => {

@@ -2,10 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { Menu } from './components/Menu';
+import CategoryView from './pages/CategoryView';
 import Home from './pages/Home';
 import SearchResults from './pages/SearchResults';
 import TemplateView from './pages/TemplateView';
-import CategoryView from './pages/TemplateView';
 
 function App() {
   return (

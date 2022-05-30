@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
@@ -35,53 +35,51 @@ function SampleNextArrow(props: any) {
   );
 }
 
-function SamplePrevArrow(props: any) {
-  return (
-    <ButtonBase
-      className="slick-arrow"
-      style={{
-        ...props.style,
-        display: 'block',
-        minWidth: 35,
-        minHeight: 35,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginLeft: -10,
-        borderRadius: '100%',
-        boxShadow: '0 1px 3px rgb(0 0 0 / 10%)',
-        cursor: 'pointer',
-      }}
-      onClick={() => props.slider.current.slickPrev()}
-    >
-      <img src={rightArrow} />
-    </ButtonBase>
-  );
+interface SliderHomeProps {
+  typeSlider: string;
 }
 
-const GridHome = () => {
+const SliderHome: React.FC<SliderHomeProps> = (props) => {
+  const [sliders, setSliders] = useState([{}]);
+
+  const selectTypeSlider = () => {
+    const include = initialDetails.filter((item) => {
+      if (item.tags.includes(props.typeSlider.toLowerCase())) {
+        return item;
+      }
+    });
+
+    setSliders(include);
+  };
+  useEffect(() => {
+    selectTypeSlider();
+    console.log(sliders);
+  }, []);
+
   const slider = React.useRef(null);
   const settings = {
     speed: 500,
-    maxWidth: '100%',
+
     slidesToShow: 4,
     slidesToScroll: 1,
+
     nextArrow: <VoidArrow />,
     prevArrow: <VoidArrow />,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1600,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 3,
+          slidesToScroll: 1,
           infinite: true,
           dots: true,
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 1350,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToScroll: 1,
         },
       },
       {
@@ -105,12 +103,14 @@ const GridHome = () => {
       >
         <Box sx={{ maxWidth: '100%', margin: '0 20px' }}>
           <Slider ref={slider} {...settings}>
-            {initialDetails.map((item: any) => (
+            {sliders.map((item: any) => (
               <div key={item.id}>
                 <CardItens
+                  idItem={item.id}
                   title={item.title}
                   images={item.imgPath}
                   author={item.author}
+                  price={item.price}
                 />
               </div>
             ))}
@@ -123,4 +123,4 @@ const GridHome = () => {
   );
 };
 
-export default GridHome;
+export default SliderHome;

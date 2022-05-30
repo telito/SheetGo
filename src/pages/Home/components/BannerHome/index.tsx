@@ -40,7 +40,7 @@ const BannerHome = () => {
             <Typography
               sx={{
                 fontSize: '30px',
-                fontWeight: '700',
+                fontWeight: 'bold',
                 color: '#000000',
                 lineHeight: '1.3',
               }}
@@ -66,7 +66,7 @@ const BannerHome = () => {
                 top: '80%',
               }}
             >
-              <RatingStars name={'BannerHome'} />
+              <RatingStars idItem={'145564847'} />
               <Typography>#LEAN #AGILE #PRODUCTIVITY</Typography>
             </Box>
           </CardContent>

@@ -1,7 +1,7 @@
 import { Box, Container, Typography } from '@mui/material';
 
 import BannerHome from './components/BannerHome';
-import GridHome from './components/GridHome';
+import SliderHome from './components/SliderHome';
 
 const Home = () => {
   return (
@@ -25,7 +25,7 @@ const Home = () => {
         >
           Recomended for you
         </Typography>
-        <GridHome />
+        <SliderHome typeSlider={'recomended'} />
         <Box m={4} />
         <Typography
           mb={3}
@@ -34,7 +34,7 @@ const Home = () => {
         >
           For business
         </Typography>
-        <GridHome />
+        <SliderHome typeSlider={'business'} />
       </Container>
     </div>
   );
