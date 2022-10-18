@@ -1,4 +1,4 @@
-# SheetGo
+
 
 ## Install dependences: yarn install or just yarn
 
